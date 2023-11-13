@@ -17,6 +17,8 @@ class Assistant(Functions, NetworkProcessor):
 	def __init__(self):
 		self.engine = d("SAPI.SpVoice")
 
+		self.ASSIST_NAME = 'Нелли'
+
 		SetLogLevel(-1)
 		self.model = Model("model")
 		self.rec = KaldiRecognizer(self.model, 48000)
