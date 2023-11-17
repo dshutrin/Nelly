@@ -3,11 +3,14 @@ bs4==0.0.1
 certifi==2023.7.22
 cffi==1.16.0
 charset-normalizer==3.3.2
+cmake==3.27.7
 colorama==0.4.6
 cryptography==41.0.5
 fuzzywuzzy==0.18.0
 idna==3.4
 Levenshtein==0.23.0
+numpy==1.26.2
+opencv-python==4.8.1.78
 PyAudio==0.2.14
 pycparser==2.21
 pygame==2.5.2

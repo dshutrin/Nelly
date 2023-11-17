@@ -1,6 +1,4 @@
-import vk_api
 from vk_api.longpoll import VkLongPoll, VkEventType
-from config import vk_token
 
 
 class NetworkProcessor:

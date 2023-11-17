@@ -31,7 +31,7 @@ class Assistant(Functions, NetworkProcessor):
 		self.soc_nets_con = True  # подключение к соц сетям
 		try:
 			self.session = vk_api.VkApi(token=vk_token)
-		except vk_api.AuthError as error:
+		except Exception as error:
 			self.say('Я не смогла подключиться к VK!')
 			self.soc_nets_con = False
 
@@ -47,7 +47,10 @@ class Assistant(Functions, NetworkProcessor):
 			'bye': self.bye,
 			'get_joke': self.get_joke,
 			'start_music': self.start_music,
-			'stop_music': self.stop_music
+			'stop_music': self.stop_music,
+			'weather': self.weather,
+			'get_time': self.get_time,
+			'shutdown': self.shutdown
 		}
 
 	def create_threads(self):
@@ -82,7 +85,7 @@ class Assistant(Functions, NetworkProcessor):
 			print('ASSISTANT', func_name)
 			if func_name != 'None':
 				if func_name in self.commands:
-					self.commands[func_name]()
+					self.commands[func_name](task)
 
 
 if __name__ == '__main__':

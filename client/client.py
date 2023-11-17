@@ -12,6 +12,11 @@ class Client:
 	def sender(self, text: str):
 		self.cli.send(text.encode('utf-8'))
 
+	def get_user_name_by_photo(self, data):
+		self.sender(f'get_user_name->[{data}]')
+		server_answer = self.cli.recv(1024).decode('utf-8')
+		return server_answer
+
 	def get_func_name(self, text):
 		self.sender(text)
 		server_answer = self.cli.recv(1024).decode('utf-8')
