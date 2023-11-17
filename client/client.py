@@ -13,7 +13,8 @@ class Client:
 		self.cli.send(text.encode('utf-8'))
 
 	def get_user_name_by_photo(self, data):
-		self.sender(f'get_user_name->[{data}]')
+		self.sender('get_user_name')
+		self.sender(f'[{data}]')
 		server_answer = self.cli.recv(1024).decode('utf-8')
 		return server_answer
 
@@ -21,3 +22,6 @@ class Client:
 		self.sender(text)
 		server_answer = self.cli.recv(1024).decode('utf-8')
 		return server_answer
+
+	def up_user_trust_lvl(self, user_name):
+		self.sender(f'up_trust_lvl->{user_name}')

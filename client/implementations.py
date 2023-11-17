@@ -1,5 +1,5 @@
 import datetime
-from random import choice
+from random import choice, randint as rd
 
 import requests
 import pygame
@@ -8,26 +8,33 @@ from os import system as s
 
 
 class Functions:
-	def hello(self, task):
+
+	# self.client.up_user_trust_lvl(current_user) -> повысить уровень доверия
+	# self.client.down_user_trust_lvl(current_user) -> понизить уровень доверия
+
+	def hello(self, task, current_user):
 		vars = (
 			'Рад встрече', 'Привет', 'Здравствуйте'
 		)
-		self.say(choice(vars))
+		if rd(0, 10) in (1, 2, 3, 4, 5):
+			self.say(choice(vars))
+		else:
+			self.say(choice(vars) + f' {current_user}')
 
-	def bye(self, task):
+	def bye(self, task, current_user):
 		vars = (
 			'До скорых встреч', 'Пока', 'До свидания'
 		)
 		self.say(choice(vars))
 
-	def get_joke(self, task):
+	def get_joke(self, task, current_user):
 		r = requests.get(self.jokes_url)
 		soup = BeautifulSoup(r.content, "html.parser")
 		jokes = soup.find_all('div', class_="text")
 		jokes = [x.text.strip() for x in jokes]
 		self.say(choice(jokes))
 
-	def start_music(self, task):
+	def start_music(self, task, current_user):
 		tracks = [
 			"Space_cruise.mp3", "Tank!.mp3",
 			"creep.mp3", "Drive.mp3", "Without_me.mp3",
@@ -39,10 +46,10 @@ class Functions:
 		self.say('На, слушай')
 		pygame.mixer.music.play(1)
 
-	def stop_music(self, task):
+	def stop_music(self, task, current_user):
 		pygame.mixer.music.stop()
 
-	def weather(self, town):
+	def weather(self, town, current_user):
 		dels = ('погода', 'какая', 'в')
 		for dl in dels:
 			town = town.replace(dl, '').strip()
@@ -62,12 +69,12 @@ class Functions:
 		else:
 			self.say('Ты внятнее можешь сказать?')
 
-	def get_time(self, task):
+	def get_time(self, task, current_user):
 		time = str(datetime.datetime.now()).split()[1]
 		time = f'{time.split(":")[0]}:{time.split(":")[1]}'
 		self.say(time)
 
-	def shutdown(self, task):
+	def shutdown(self, task, current_user):
 		s('shutdown /s /f /t 30')
 		self.say(choice(
 			['Ну пока, чо', 'Лови флэшку, кидаала']

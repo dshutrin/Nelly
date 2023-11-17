@@ -56,7 +56,25 @@ class DataBase:
 			cur.execute(f'select name from users;')
 			return [x['name'] for x in cur.fetchall()]
 
+	def up_trust_lvl(self, user_name):
+		with self.con.cursor() as cur:
+			cur.execute(f'select trust_lvl from users where name="{user_name}";')
+			a = [x['trust_lvl'] for x in cur.fetchall()]
+			if len(a):
+				lvl = a[0]
+				cur.execute(f'update users set trust_lvl={lvl+5} where name="{user_name}";')
+				self.con.commit()
+
+	def down_trust_lvl(self, user_name):
+		with self.con.cursor() as cur:
+			cur.execute(f'select trust_lvl from users where name="{user_name}";')
+			a = [x['trust_lvl'] for x in cur.fetchall()]
+			if len(a):
+				lvl = a[0]
+				cur.execute(f'update users set trust_lvl={lvl-5} where name="{user_name}";')
+				self.con.commit()
+
 
 if __name__ == '__main__':
 	a = DataBase()
-	print(a.get_user_photos('putin'))
+	print(a.up_trust_lvl('dshutrin'))

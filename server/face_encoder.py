@@ -29,5 +29,5 @@ class Encoder:
 
 if __name__ == '__main__':
 	e = Encoder()
-	e.encode('putin')
-	e.encode('dshutrin')
+	e.encode('Дмитрий')
+	e.encode('Владимир Владимирович')

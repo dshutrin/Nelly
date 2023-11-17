@@ -11,6 +11,7 @@ from config import vk_token
 from client import Client
 from implementations import Functions
 from social_networks import NetworkProcessor
+from face_rec import FaceID, Camera
 
 
 class Assistant(Functions, NetworkProcessor):
@@ -38,6 +39,7 @@ class Assistant(Functions, NetworkProcessor):
 		self.running = True
 		self.jokes_url = "https://www.anekdot.ru/tags/%D0%A8%D1%82%D0%B8%D1%80%D0%BB%D0%B8%D1%86/?type=anekdots"
 		self.client = Client()
+		self.facer = FaceID(self.client)
 
 		self.phrases = []
 		self.create_threads()
@@ -80,12 +82,14 @@ class Assistant(Functions, NetworkProcessor):
 
 	def run(self):
 		for task in self.listen():
-			print('ASSISTANT', task)
+			print(task)
 			func_name = self.client.get_func_name(task)
-			print('ASSISTANT', func_name)
+			print(func_name)
+			current_user = self.facer.get_current_user_name()
+			print(current_user)
 			if func_name != 'None':
 				if func_name in self.commands:
-					self.commands[func_name](task)
+					self.commands[func_name](task, current_user)
 
 
 if __name__ == '__main__':

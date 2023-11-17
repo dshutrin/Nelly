@@ -22,6 +22,7 @@ class Server:
 	@lru_cache
 	def get_answer(self, data):
 		variables = self.base.get_variables()
+		print(data)
 
 		max_per = 0
 		ans = None
@@ -47,10 +48,12 @@ class Server:
 		running = True
 		while running:
 			try:
-				data = self.get_message(user)
+				data = user.recv(1024).decode('utf-8')
+				print(data)
 
-				if data.startswith('get_user_name->'):
-					data = np.array(eval(data.split('->')[1]))
+				if data == 'get_user_name':
+					data = self.get_message(user)
+					data = np.array(eval(data))
 					user_names = self.base.get_all_user_names()
 
 					max_coef = 0
@@ -68,6 +71,10 @@ class Server:
 						self.sender(user, ans_user_name)
 					else:
 						self.sender(user, 'unknown user')
+
+				elif data.startswith('up_trust_lvl->'):
+					user_name = data.split('->')[1]
+					self.base.up_trust_lvl(user_name)
 
 				else:
 					ans = self.get_answer(data)
