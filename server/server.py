@@ -49,7 +49,8 @@ class Server:
 		while running:
 			try:
 				data = user.recv(1024).decode('utf-8')
-				print(data)
+				username = data.split(':')[0].strip()
+				data = data.replace(f'{username}: ', '').strip()
 
 				if data == 'get_user_name':
 					data = self.get_message(user)
@@ -76,6 +77,24 @@ class Server:
 					user_name = data.split('->')[1]
 					self.base.up_trust_lvl(user_name)
 
+				elif data.startswith('включи'):
+					print(data, username)
+					target = data.replace('включи', '').strip()
+
+					target = data.replace('включи', '').strip()
+					current_targets_pins = self.base.get_home_instances(
+						self.base.get_user_by_name(username)
+					)
+
+					need_pin = None
+					max_coef = 0
+					for tar in current_targets_pins:
+						coef = rat(target['name'], target)
+						if 70 < coef > max_coef:
+							need_pin = tar['pin']
+							max_coef = coef
+
+					print(need_pin)
 				else:
 					ans = self.get_answer(data)
 

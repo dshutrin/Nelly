@@ -74,6 +74,19 @@ class DataBase:
 				cur.execute(f'update users set trust_lvl={lvl-5} where name="{user_name}";')
 				self.con.commit()
 
+	def get_user_by_name(self, username):
+		with self.con.cursor() as cur:
+			cur.execute(f'select * from users where name="{username}";')
+			a = [x['id'] for x in cur.fetchall()]
+			if len(a):
+				return a[0]
+			return None
+
+	def get_home_instances(self, user_id):
+		with self.con.cursor() as cur:
+			cur.execute(f'select * from home_instances where user_id={user_id};')
+			return [x for x in cur.fetchall()]
+
 
 if __name__ == '__main__':
 	a = DataBase()

@@ -5,12 +5,19 @@ from config import *
 
 
 class Client:
-	def __init__(self):
+	def __init__(self, username=''):
 		self.cli = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		self.cli.connect((IP, PORT))
+		self.username = username
+
+	def set_user(self, username):
+		self.username = username
 
 	def sender(self, text: str):
-		self.cli.send(text.encode('utf-8'))
+		if text.startswith('['):
+			self.cli.send(text.encode('utf-8'))
+		else:
+			self.cli.send(f'{self.username}: {text}'.encode('utf-8'))
 
 	def get_user_name_by_photo(self, data):
 		self.sender('get_user_name')

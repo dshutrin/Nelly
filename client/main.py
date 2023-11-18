@@ -82,11 +82,12 @@ class Assistant(Functions, NetworkProcessor):
 
 	def run(self):
 		for task in self.listen():
-			print(task)
-			func_name = self.client.get_func_name(task)
-			print(func_name)
 			current_user = self.facer.get_current_user_name()
 			print(current_user)
+			self.client.set_user(current_user)
+			func_name = self.client.get_func_name(task)
+			print(func_name)
+			print(task)
 			if func_name != 'None':
 				if func_name in self.commands:
 					self.commands[func_name](task, current_user)
